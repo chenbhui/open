@@ -1,0 +1,15 @@
+//jsconfig.json配置别名@提示【@代表src文件夹，这样将来文件间过多，找起来方便】
+{
+    "compilerOptions": {
+        "baseUrl": "./",
+        "paths": {
+            "@/*":[
+                "src/*"
+            ]
+        }
+    },
+    "exclude": [
+        "node_modules",
+        "dist"
+    ]
+}
