@@ -14,7 +14,6 @@ export default {
     Head,
     Foot,
   },
-  mounted() {},
 };
 </script>
 

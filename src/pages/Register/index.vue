@@ -26,43 +26,66 @@
               <div class="auth-connection-mean iconfont icon-weixin"></div>
             </div>
             <div class="divider"></div>
-            <form reactive="form">
+            <VeeForm
+              ref="formCom"
+              reactive="form"
+              :validation-schema="schema"
+              v-slot="{ errors }"
+              autocomplete="off"
+            >
               <label for="username">Username</label>
               <div class="username">
-                <input
+                <Field
                   type="text"
-                  v-model="form.name"
+                  name="username"
+                  v-model="form.username"
                   placeholder="请输入用户名"
                 />
+                <div class="error" v-if="errors.username">
+                  <i class="iconfont icon-error">{{ errors.username }}</i>
+                </div>
               </div>
               <label for="password">password</label>
               <div class="password">
-                <input
+                <Field
                   type="password"
-                  v-model="form.passward"
+                  name="password"
+                  v-model="form.password"
                   placeholder="请输入密码"
                 />
+                <div class="error" v-if="errors.password">
+                  <i class="iconfont icon-error">{{ errors.password }}</i>
+                </div>
               </div>
               <label for="ConfirmPwd">Confirm password</label>
               <div class="ConfirmPwd">
-                <input
-                  type="text"
+                <Field
+                  type="password"
+                  name="confirmPwd"
                   v-model="form.confirmPwd"
                   placeholder="请确认密码"
                 />
+                <div class="error" v-if="errors.code">
+                  <i class="iconfont icon-error">{{ errors.code }}</i>
+                </div>
               </div>
               <div class="identityAndbtn">
-                <span class="identity" @click="identityOpt($event)">
-                  <div class="option">普通用户</div>
+                <span class="identity" @click="identityOpt()">
+                  <div class="option">{{ useriden }}</div>
                   <ul v-if="showUl">
-                    <li>普通用户</li>
-                    <li>工作人员</li>
-                    <li>老师</li>
+                    <li
+                      v-for="item in identityList"
+                      :key="item.index"
+                      ref="getid"
+                      @click="getiduser(item)"
+                    >
+                      {{ item.identity }}
+                    </li>
                   </ul>
                 </span>
-                <button @submit="onSubmit">Sign up</button>
+                <button @click="onSubmit()">Sign up</button>
               </div>
-            </form>
+            </VeeForm>
           </div>
         </div>
       </section>
@@ -71,29 +94,55 @@
 </template>
 
 <script>
-import { ref, reactive, computed } from "vue";
+import { ref, reactive } from "vue";
+// Form as VeeForm 换名方法
+import { Form as VeeForm, Field } from "vee-validate";
+import schema from "@/utils/vee-validate-schema";
 export default {
   name: "Register",
+  components: { VeeForm, Field },
   setup() {
+    const showUl = ref(false);
+    const useriden = ref("选择身份");
+    const formCom = ref(null); //为了后面获取form表单内容
+    const identityList = reactive([
+      { identity: "普通用户", index: 1 },
+      { identity: "工作人员", index: 2 },
+      { identity: "老师", index: 3 },
+    ]);
     const form = reactive({
-      name: "",
-      passward: "",
-      confirmPwd: "", //重复密码
-      identity: "",
+      username: null,
+      password: null,
+      confirmPwd: null,
     });
-    const showUl = true;
-    const identityOpt = (e) => {
-      // 获取当前元素
-      const el = e.currentTarget;
+    // vee-validate校验基本步骤
+    // 1.导入Form Field 组件，将form和input替换，需要加上name用来指定将来的校验规则函数的
+    // 2.Field需要进行数据绑定,字段名称最好和后端接口需要的一致
+    // 3.定义Field的name属性指定的校验规则函数，Form的validation-schema接受定义好的校验规则是对象
+    // 4.自定义组件需要校验必须先支持v-model  然后Field使用as指定为组件名称
+    const myschema = {
+      // 校验函数规则：返回true就是校验成功，返回一个字符串就是失败错误提示
+      username: schema.username,
+      password: schema.password,
     };
-    const onSubmmit = () => {
-      //校验通过了,可以请求注册接口了
+    const identityOpt = () => (showUl.value = !showUl.value);
+    const getiduser = (item) => {
+      useriden.value = item.identity;
     };
+    async function onSubmit() {
+      const valid = await formCom.value.validate();
+      console.log(valid);
+    }
     return {
       showUl,
       form,
-      onSubmmit,
+      identityList,
+      useriden,
+      schema: myschema,
+      formCom,
+      onSubmit,
       identityOpt,
+      getiduser,
     };
   },
 };
@@ -250,11 +299,22 @@ export default {
 }
 
 .right-content-title form > div {
+  position: relative;
   width: 100%;
   height: 43px;
   margin: 10px 0 30px 0;
   background: #f2f2f2;
   border-radius: 8px;
+}
+.right-content-title form > div .error {
+  position: absolute;
+  top: 49px;
+  left: 2px;
+  color: red;
+}
+
+.right-content-title form > div .error i {
+  font-size: 13px;
 }
 
 .identityAndbtn {

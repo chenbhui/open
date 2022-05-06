@@ -26,50 +26,80 @@
               <div class="auth-connection-mean iconfont icon-weixin"></div>
             </div>
             <div class="divider"></div>
-            <form action="" reactive="form" :rules="rules" :model="form">
+            <Form
+              ref="formCom"
+              reactive="form"
+              :validation-schema="schema"
+              v-slot="{ errors }"
+              autocomplete="off"
+            >
               <label for="username">Username</label>
               <div class="username">
-                <input type="text" v-model="form.name" />
+                <Field
+                  type="text"
+                  name="username"
+                  v-model="form.username"
+                  placeholder="请输入用户名"
+                />
+                <div class="error" v-if="errors.username">
+                  <i class="iconfont icon-error">{{ errors.username }}</i>
+                </div>
               </div>
               <label for="password">password</label>
-              <div class="password"><input type="password" /></div>
-              <button>Sign In</button>
-            </form>
+              <div class="password">
+                <Field
+                  type="password"
+                  name="password"
+                  v-model="form.password"
+                  placeholder="请输入密码"
+                />
+                <div class="error" v-if="errors.password">
+                  <i class="iconfont icon-error">{{ errors.password }}</i>
+                </div>
+              </div>
+              <button @click="login()">Sign In</button>
+            </Form>
           </div>
         </div>
       </section>
+      <!-- 测试:直接用组件的方式，比较复杂 -->
+      <!-- <message type="error" text="用户名不存在" /> -->
     </div>
   </div>
 </template>
 
 <script>
 import { ref, reactive } from "vue";
+import { Form, Field } from "vee-validate";
+import schema from "@/utils/vee-validate-schema";
+import Message from "../../components/Message/Message"; //函数
 export default {
   name: "Login",
+  components: { Form, Field },
   setup() {
+    const formCom = ref(null);
     const form = reactive({
-      name: "",
-      passward: "",
+      username: null,
+      password: null,
     });
-    const rules = ref({
-      name: [
-        {
-          required: true,
-          message: "Please input Activity name",
-          trigger: "blur",
-        },
-      ],
-      passward: [
-        {
-          required: true,
-          message: "Please input Activity passward",
-          trigger: "blur",
-        },
-      ],
-    });
+    const myschema = {
+      // 校验函数规则：返回true就是校验成功，返回一个字符串就是失败错误提示
+      username: schema.username,
+      password: schema.password,
+    };
+    // 点击登录时对整体表单进行验证
+    const login = async () => {
+      const valid = await formCom.value.validate();
+      // console.log(valid);
+      // Message({ type: "success", text: "用户名或者密码错误" });
+      //1.准备一个Api做账号登录并调用
+      //2.成功：跳转到来源页或者首页+消息提示    失败：消息提示
+    };
     return {
       form,
-      rules,
+      formCom,
+      schema: myschema,
+      login,
     };
   },
 };
@@ -228,12 +258,23 @@ export default {
   padding-left: 15px;
 }
 
-.right-content-title form div {
+.right-content-title form > div {
+  position: relative;
   width: 100%;
   height: 43px;
   margin: 10px 0 30px 0;
   background: #f2f2f2;
   border-radius: 8px;
+}
+.right-content-title form > div .error {
+  position: absolute;
+  top: 49px;
+  left: 2px;
+  color: red;
+}
+
+.right-content-title form > div .error i {
+  font-size: 13px;
 }
 
 .right-content-title form button {

@@ -29,6 +29,7 @@ const routers = [
     }
 ];
 const router = createRouter({
+    // 使用hash的路由模式
     history: createWebHistory(process.env.BASE_URL),
     routes: routers
 });
