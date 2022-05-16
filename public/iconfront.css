@@ -1,9 +1,9 @@
 @font-face {
     font-family: "iconfont";
     /* Project id 3361454 */
-    src: url('//at.alicdn.com/t/font_3361454_fhlvd1ey1tw.woff2?t=1651816573651') format('woff2'),
-        url('//at.alicdn.com/t/font_3361454_fhlvd1ey1tw.woff?t=1651816573651') format('woff'),
-        url('//at.alicdn.com/t/font_3361454_fhlvd1ey1tw.ttf?t=1651816573651') format('truetype');
+    src: url('//at.alicdn.com/t/font_3361454_x225p26n6s.woff2?t=1652336509108') format('woff2'),
+        url('//at.alicdn.com/t/font_3361454_x225p26n6s.woff?t=1652336509108') format('woff'),
+        url('//at.alicdn.com/t/font_3361454_x225p26n6s.ttf?t=1652336509108') format('truetype');
 }
 
 .iconfont {
@@ -12,6 +12,46 @@
     font-style: normal;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-guanbi:before {
+    content: "\e61b";
+}
+
+.icon-jiandao:before {
+    content: "\e632";
+}
+
+.icon-xiaolian:before {
+    content: "\ec80";
+}
+
+.icon-jiandao1:before {
+    content: "\e673";
+}
+
+.icon-a-gaoxinghaoxinqingbiaoqingxihuanbiaoqingxiaolian:before {
+    content: "\e743";
+}
+
+.icon-zans:before {
+    content: "\e719";
+}
+
+.icon-gengduo:before {
+    content: "\e88b";
+}
+
+.icon-shouqi:before {
+    content: "\e642";
+}
+
+.icon-buzan:before {
+    content: "\e63d";
+}
+
+.icon-icon_sent:before {
+    content: "\e60c";
 }
 
 .icon-jinggao:before {

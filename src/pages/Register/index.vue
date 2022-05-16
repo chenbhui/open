@@ -4,9 +4,9 @@
       <section class="main-contain-left">
         <div class="left-content-title">
           <div class="title-area">
-            <a href="index.html">
+            <router-link to="/home">
               <img src="../../assets/images/logo.png" alt="" />
-            </a>
+            </router-link>
           </div>
           <h3>Discover the world's top <br />Love & Expectation</h3>
           <div class="main-contain-left-img">
@@ -26,6 +26,8 @@
               <div class="auth-connection-mean iconfont icon-weixin"></div>
             </div>
             <div class="divider"></div>
+            <!-- :validation-schema="schema"  绑定校验规则对象  下文的Field的name是对应的标记-->
+            <!-- autocomplete="off"  解决浏览器自动填充功能 -->
             <VeeForm
               ref="formCom"
               reactive="form"
@@ -83,7 +85,7 @@
                     </li>
                   </ul>
                 </span>
-                <button @click="onSubmit()">Sign up</button>
+                <button @click="register()" type="button">Sign up</button>
               </div>
             </VeeForm>
           </div>
@@ -98,6 +100,10 @@ import { ref, reactive } from "vue";
 // Form as VeeForm 换名方法
 import { Form as VeeForm, Field } from "vee-validate";
 import schema from "@/utils/vee-validate-schema";
+import Message from "../../components/Message/Message"; //函数
+import { useStore } from "vuex";
+import { useRoute, useRouter } from "vue-router";
+import { Register } from "@/utils/html";
 export default {
   name: "Register",
   components: { VeeForm, Field },
@@ -114,6 +120,7 @@ export default {
       username: null,
       password: null,
       confirmPwd: null,
+      identity: null,
     });
     // vee-validate校验基本步骤
     // 1.导入Form Field 组件，将form和input替换，需要加上name用来指定将来的校验规则函数的
@@ -128,11 +135,34 @@ export default {
     const identityOpt = () => (showUl.value = !showUl.value);
     const getiduser = (item) => {
       useriden.value = item.identity;
+      form.identity = item.index;
     };
-    async function onSubmit() {
+    // 点击登录时对整体表单进行验证
+    const store = useStore();
+    const router = useRouter(); //拿路由信息
+    const route = useRoute();
+    const register = async () => {
       const valid = await formCom.value.validate();
       console.log(valid);
-    }
+      //2.成功：存储用户信息+跳转到登录页+消息提示    失败：消息提示
+      if (valid) {
+        const { username, password, confirmPwd, identity } = form;
+        console.log(form);
+        Register({ username, password, confirmPwd, identity }).then((res) => {
+          const data = res.data;
+          console.log(data);
+          if (data.status == 1) {
+            Message({ type: "error", text: data.message });
+          } else if (data.status == 0) {
+            Message({ type: "success", text: data.message });
+            // 跳转页面
+            router.push(route.query.redirectUrl || "/login");
+          } else {
+            Message({ type: "warn", text: "发生异常" });
+          }
+        });
+      }
+    };
     return {
       showUl,
       form,
@@ -140,7 +170,7 @@ export default {
       useriden,
       schema: myschema,
       formCom,
-      onSubmit,
+      register,
       identityOpt,
       getiduser,
     };

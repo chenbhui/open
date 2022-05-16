@@ -10,6 +10,7 @@ export default {
                 nickname: '',//昵称
                 username: '',//用户名
                 mobile: '',//手机号码
+                identity: '',//身份
                 token: ''
             }
         }

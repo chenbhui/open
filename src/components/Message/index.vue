@@ -63,7 +63,7 @@ export default {
   position: fixed;
   left: 50%;
   top: 25px;
-  width: 250px;
+  min-width: 250px;
   height: 40px;
   margin-left: -125px;
   line-height: 40px;

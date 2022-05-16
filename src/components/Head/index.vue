@@ -9,11 +9,12 @@
       </div>
       <div class="widget-area">
         <ul class="nav">
-          <li><a href="javascript:;">PSY SERVICE</a></li>
+          <li><router-link to="/chatroom">PSY SERVICE</router-link></li>
           <li><a href="javascript:;">DECOMPRESSION</a></li>
           <li><a href="javascript:;">PSY KNOWLEDGE</a></li>
           <li><a href="javascript:;">ABOUT US</a></li>
-          <li><router-link to="/login">SIGN IN</router-link></li>
+          <!-- router-link是声明式导航，无法有其他业务逻辑，只能跳转，编程式导航（replace、push）才能有其他业务 -->
+          <li><router-link to="login">SIGN IN</router-link></li>
         </ul>
       </div>
     </div>
@@ -23,6 +24,7 @@
 <script>
 export default {
   name: "Header",
+  setup() {},
 };
 </script>
 

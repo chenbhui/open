@@ -155,9 +155,11 @@ export default {
 
 
 
-# Vue3项目历练
+# `Vue3`项目历练
 
-<strong style="color:red">问题：</strong>
+### problem
+
+#### <strong style="color:red">问题1：</strong>
 
 ![image-20220504005138090](C:\Users\86157\AppData\Roaming\Typora\typora-user-images\image-20220504005138090.png)
 
@@ -173,7 +175,7 @@ export default {
 
 <strong style="color:orange">相关知识：</strong>
 
-#### 1.`Vue`中`router` 和 `route` 、`routes` 的区别
+#### `Vue`中`router` 和 `route` 、`routes` 的区别
 
 * router 
 
@@ -236,6 +238,145 @@ this.router.push({
 this.name=this.route.params.name
 this.age=this.route.params.age
 ```
+
+
+
+
+
+#### <strong style="color:red">问题2：</strong>
+
+后端post拿不到前端发送带过来的body数据
+
+#### `express`中使用`post`方法
+
+https://blog.csdn.net/weixin_44691513/article/details/109374231
+
+<strong style="color:green">解决：</strong>安装`body-parse`
+
+* Express中默认都使用body-parser作为请求体解析post数据，这个模块也能解析：`JSON`、Raw、文本、URL-encoded格式的请求体。
+  首先在项目目录安装body-parser：
+
+  ```js
+  npm i body-parser
+  ```
+
+* 在后端代码`app.js`上使用该插件
+
+  ```js
+  const express = require('express')
+  const bodyParser = require('body-parser')
+  const router = require('./router')//引用模块
+  const app = express()
+  // parse application/x-www-form-urlencoded
+  app.use(bodyParser.urlencoded({ extended: false }))
+  // parse application/json
+  app.use(bodyParser.json())
+  // 全局 中间件  解决所有路由的 跨域问题
+  app.all('*',function (req,res,next) {
+      res.header('Access-Control-Allow-Origin','*')
+      res.header('Access-Control-Allow-Headers','X-Requested-With,Content-Type')
+      res.header('Access-Control-Allow-Methods','GET,POST,OPTIONS')
+      next()
+  })
+  app.use(router)
+  app.listen(3000,function () {
+      console.log('服务器启动成功')
+      console.log('http://127.0.0.1:3000')
+  })
+  
+  ```
+
+  接口演示（router_handler/user.js）
+
+  ```js
+  const {Router} = require('express')
+  const path = require('path')
+  const router = new Router()
+  
+  router.get('/',function (req,res){
+      res.send({
+          msg: 'hi node express'
+      })
+  })
+  
+  router.post('/login',function (req,res){
+  
+      // req: 客户端 携带的信息
+      // console.log(req.query)
+      // console.log(req.params)
+      console.log(req.body)
+      // console.log(req.get('Origin'))
+      // console.log(req.url)
+  
+      // res 服务端 发送给 客户端的信息(数据)
+      // res.send({
+      //     msg: 'login 接口'
+      // })
+      // res.end('不会自动转换数据 容易乱码')
+      // res.download('./static/dj.jpg') // 相对地址
+      // res.sendFile(path.resolve('static','dj.jpg')) // 绝对地址
+      // res.redirect('https://www.shiguangkey.com/')
+      // res.redirect('https://www.shiguangkey.com/')
+      res.set('sadsadsadsafdgsfadgfsdfsd','789')
+      res.send({
+          msg: 'set演示'
+      })
+  })
+  
+  
+  module.exports = router
+  
+  ```
+
+  
+
+
+
+
+
+### Learn
+
+#### 1.`vue`中transition
+
+```js
+https://blog.csdn.net/weixin_44140210/article/details/119390691
+https://blog.csdn.net/qq_41756580/article/details/108493532
+```
+
+* 用法:**transition** 元素作为单个元素/组件的过渡效果。**transition**只会把过渡效果应用到其包裹的内容上，而不会额外渲染 DOM 元素，也不会出现在可被检查的组件层级中。
+
+* 属性：
+
+  * name【String】,用于自动生成css过度类名
+
+    例如：name:fade  
+
+    ```js
+    fade-enter：元素显示/插入前的效果，例如：transform: translateX(-200%);
+                                                    
+    fade-active-enter：元素显示/插入的过渡时间和函数，例如：transition: all 0.3s ease;
+                                                    
+    fade-enter-to：元素显示/插入后的效果，例如：transform: translateX(-100%);
+    
+    fade-leave：元素隐藏/移除前的效果，例如：transform: translateX(0);
+    
+    fade-active-leave：元素隐藏/移除的过渡时间和函数，例如：transition: all 0.3s ease;
+    
+    fade-leave-to：元素隐藏/移除后的效果，例如：transform: translateX(100%);
+    ```
+
+  * appear 【 boolean】，是否在初始渲染时使用过渡。默认为 false。
+
+  * mode 【 string】，控制离开/进入过渡的时间序列。有效的模式有 “out-in” 和 “in-out”；默认同时进行
+
+    ```js
+    mode的“out-in”和“in-out”代表的意思
+    out-in：在前一个组件离开之后下一个组件开始进入
+    in-out：下一个组件进入，前一个组件才离开
+    ```
+
+    transition动画的实现是依靠css进行控制的，一般而言v-active-enter和v-active-leave的样式是一样的，因为这两个是定义过渡的状态，例如过渡的曲线、时间。
+    如果页面有多个transition的话可以通过修改name属性，分别给不同的transition添加变幻样式
 
 #### 2.注册登录页面
 
@@ -392,12 +533,6 @@ watch(isMsgLogin,()=>{
 return{isMsgLogin,form,formCom}
 ```
 
-##### 提示信息函数封装
-
-```js
-
-```
-
 一些拓展：
 
 （1）setup中获取组件实例proxy
@@ -406,5 +541,40 @@ return{isMsgLogin,form,formCom}
 const {proxy}=getCurrentInstance()
 可用于调用函数：
 proxy.$message({text:'111'})//其中message已经是封装好的函数（具体看Open项目的login部分）
+```
+
+##### 后端post接收不到前端数据
+
+* Express中默认都使用body-parser作为请求体解析post数据，这个模块也能解析：JSON、Raw、文本、URL-encoded格式的请求体。
+  首先在项目目录安装body-parser：
+
+```js
+/* 
+        //使用request2.js的，但是控制台报错！！！！
+        userLogin({ username, password })
+          .then((data) => {
+            //存储用户信息
+            const { id, username, avatar, identity, token } = data.result;
+            store.commit("user/setUser", {
+              id,
+              username,
+              avatar,
+              identity,
+              token,
+            });
+            // 跳转页面
+            router.push(route.query.redirectUrl || "/");
+            // 成功提示
+            Message({ type: "success", text: "登录成功·" });
+          })
+          .catch((e) => {
+            // 失败提示
+            if (e.response.data) {
+              Message({
+                type: "error",
+                text: e.response.data.message || "登陆失败",
+              });
+            }
+          }); */
 ```
 

@@ -4,9 +4,9 @@
       <section class="main-contain-left">
         <div class="left-content-title">
           <div class="title-area">
-            <a href="index.html">
+            <router-link to="/home">
               <img src="../../assets/images/logo.png" alt="" />
-            </a>
+            </router-link>
           </div>
           <h3>Discover the world's top <br />Love & Expectation</h3>
           <div class="main-contain-left-img">
@@ -17,7 +17,7 @@
       </section>
       <section class="main-contain-right">
         <div class="tip">
-          <router-link to="/login">还未注册</router-link>
+          <router-link to="/register">还未注册</router-link>
         </div>
         <div class="main-contain-right-content">
           <div class="right-content-title">
@@ -57,7 +57,7 @@
                   <i class="iconfont icon-error">{{ errors.password }}</i>
                 </div>
               </div>
-              <button @click="login()">Sign In</button>
+              <button @click="login()" type="button">Sign In</button>
             </Form>
           </div>
         </div>
@@ -73,6 +73,9 @@ import { ref, reactive } from "vue";
 import { Form, Field } from "vee-validate";
 import schema from "@/utils/vee-validate-schema";
 import Message from "../../components/Message/Message"; //函数
+import { useStore } from "vuex";
+import { useRoute, useRouter } from "vue-router";
+import { Login } from "../../utils/html.js";
 export default {
   name: "Login",
   components: { Form, Field },
@@ -88,12 +91,34 @@ export default {
       password: schema.password,
     };
     // 点击登录时对整体表单进行验证
+    const store = useStore();
+    const router = useRouter(); //拿路由信息
+    const route = useRoute();
     const login = async () => {
       const valid = await formCom.value.validate();
-      // console.log(valid);
+      console.log(valid);
       // Message({ type: "success", text: "用户名或者密码错误" });
-      //1.准备一个Api做账号登录并调用
-      //2.成功：跳转到来源页或者首页+消息提示    失败：消息提示
+      //2.成功：存储用户信息+跳转到来源页或者首页+消息提示    失败：消息提示
+      if (valid) {
+        const { username, password } = form;
+        console.log(form);
+        Login({ username, password }).then((res) => {
+          console.log(res.data);
+          const data = res.data;
+          if (data.status == 1) {
+            Message({ type: "error", text: "用户名或者密码错误" });
+          } else if (data.status == 0) {
+            Message({ type: "success", text: "登录成功·" });
+            // 存储用户信息
+            // const { id, username, avatar, token } = data.result;
+            // store.commit("user/setUser", { id, username, avatar, token });
+            // 跳转页面
+            router.push(route.query.redirectUrl || "/");
+          } else {
+            Message({ type: "warn", text: "发生异常" });
+          }
+        });
+      }
     };
     return {
       form,
