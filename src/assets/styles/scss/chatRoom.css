@@ -629,23 +629,3 @@
     color: #f2cc16;
     text-shadow: 0 0 3px #fff;
 }
-
-/* 尾部 */
-.footer {
-    width: 100%;
-    background: #ffe284;
-}
-
-
-.footer-publish {
-    width: 100%;
-    height: 100px;
-    padding-top: 30px;
-    text-align: center;
-    background: #f9f9f9;
-}
-
-.footer-publish .copyright {
-    margin-bottom: 10px;
-    font-size: 16px;
-}

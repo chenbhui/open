@@ -1,0 +1,209 @@
+/* banner */
+.banner {
+    margin: 0 auto;
+}
+
+.summer {
+    padding: 0 50px;
+    background: #fdf4cf;
+}
+
+.summer-show {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    height: 555px;
+}
+
+.summer-show>div {
+    flex: 1;
+}
+
+.summer-show-img {
+    padding: 80px 50px 0px 50px;
+}
+
+.summer-show-img img {
+    width: 100%;
+    height: 100%;
+}
+
+.summer-show-text {
+    position: relative;
+    padding: 110px 30px;
+    text-align: center;
+}
+
+.summer-show-text h3 {
+    font-size: 39px;
+    color: #ff4d4d;
+}
+
+.summer-show-text p {
+    margin-top: 50px;
+    font-size: 20px;
+    color: #000;
+}
+
+.bookList,
+.scienceAnnouncement {
+    width: 100%;
+}
+
+.booklist-show,
+.science-show {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    background: #fcf7f1;
+}
+
+.booklist-show h3,
+.science-show h3 {
+    width: 100%;
+    font-size: 28px;
+    text-align: center;
+    padding: 30px;
+    background: #fff;
+}
+
+.bookList-show-content {
+    display: flex;
+    padding-top: 45px;
+}
+
+.book-card {
+    width: 308px;
+    height: 400px;
+    margin: 15px 17px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 5px#ccc;
+    overflow: hidden;
+    background: #fff;
+}
+
+.book-card-img {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.book-card-img img {
+    height: 98%;
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.switch {
+    width: 600px;
+    margin: 50px auto;
+    height: 50px;
+}
+
+.switch ul {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.switch ul>li {
+    width: 45px;
+    height: 45px;
+    margin: 0 10px;
+    line-height: 45px;
+    text-align: center;
+    border-radius: 5px;
+    background: #fff;
+    color: #ffe284;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.science-show-li {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 50px;
+}
+
+.science-show-li-img {
+    width: 400px;
+    height: 400px;
+    padding: 20px;
+    border-radius: 15px;
+    background: #fff;
+}
+
+.science-show-li-img img {
+    width: 100%;
+}
+
+.science-show-li-text {
+    display: flex;
+    justify-content: space-between;
+    width: 864px;
+    height: 400px;
+    padding: 15px 30px;
+    border-radius: 15px;
+    background: #fff;
+}
+
+.science-show-li-text-card {
+    width: 100%;
+    height: 100%;
+}
+
+.science-show-li-text-card ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 100%;
+    height: 100%;
+}
+
+.science-show-li-text-card li {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    width: 357px;
+    height: 74px;
+    padding-left: 60px;
+    background: #fff;
+    cursor: pointer;
+}
+
+.science-show-li-text-card li::before {
+    position: absolute;
+    top: 50%;
+    left: 0px;
+    transform: translateY(-50%);
+    content: "";
+    width: 43px;
+    height: 43px;
+    border-radius: 3px;
+    background: #ccc;
+    background: url(../../images/science-li-icon5.jpg) center center no-repeat;
+    background-size: 80% 80%;
+    overflow: hidden;
+}
+
+.science-show-li-text-card li>div {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.science-text-card-head {
+    font-size: 16px;
+    font-weight: 545;
+    margin-bottom: 6px;
+}
+
+.science-text-card-body {
+    padding-left: 5px;
+    font-size: 13px;
+}

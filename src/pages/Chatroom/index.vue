@@ -185,13 +185,6 @@
       </div>
     </div>
   </div>
-  <!-- footer -->
-  <footer class="footer">
-    <div class="footer-publish">
-      <p class="copyright">Copyright &copy; | All Rights Reserved</p>
-      <p class="slogan">love and expectation are ahead</p>
-    </div>
-  </footer>
 </template>
 
 <script>

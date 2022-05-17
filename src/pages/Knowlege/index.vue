@@ -27,7 +27,11 @@
           <div class="bookList-show-content">
             <div class="book-card">
               <div class="book-card-img">
-                <img src="../../assets/images/book_21.jpg" alt="" />
+                <img
+                  src="../../assets/images/book_21.jpg"
+                  alt=""
+                  title="名字+作者"
+                />
               </div>
             </div>
             <div class="book-card">
@@ -71,77 +75,17 @@
             <div class="science-show-li-text">
               <div class="science-show-li-text-card">
                 <ul>
-                  <li>
+                  <li
+                    v-for="item in News"
+                    :key="item.id"
+                    @click="GoHref(item.webAddress)"
+                  >
                     <div class="science-text-card-head">
-                      I have a boat that can ferry you away from the fallen
-                      river
-                    </div>
-                    <div class="science-text-card-body">May special issue</div>
-                  </li>
-                  <li>
-                    <div class="science-text-card-head">
-                      I was trapped in the confusion of 20 years old and
-                      couldn't find myself
-                    </div>
-                    <div class="science-text-card-body">May special issue</div>
-                  </li>
-                  <li>
-                    <div class="science-text-card-head">
-                      When psychology collides with art, welcome to the world of
-                      zhuanxun
-                    </div>
-                    <div class="science-text-card-body">May special issue</div>
-                  </li>
-                  <li>
-                    <div class="science-text-card-head">
-                      Here comes the blind box of consultation letter ~ please
-                      recite your lucky numbers!
-                    </div>
-                    <div class="science-text-card-body">May special issue</div>
-                  </li>
-                  <li>
-                    <div class="science-text-card-head">
-                      it's not so bad to say that you don't obey the coerced
-                      choice
-                    </div>
-                    <div class="science-text-card-body">Lilushu</div>
-                  </li>
-                </ul>
-              </div>
-              <div class="science-show-li-text-card">
-                <ul>
-                  <li>
-                    <div class="science-text-card-head">
-                      please live well even for "me"
-                    </div>
-                    <div class="science-text-card-body">Depression</div>
-                  </li>
-                  <li>
-                    <div class="science-text-card-head">
-                      You are not "glass heart", just highly sensitive
-                    </div>
-                    <div class="science-text-card-body">Sensitive</div>
-                  </li>
-                  <li>
-                    <div class="science-text-card-head">
-                      What are we doing when we're on CP?
-                    </div>
-                    <div class="science-text-card-body">Love observer</div>
-                  </li>
-                  <li>
-                    <div class="science-text-card-head">
-                      At the beginning of the school season, the unaccepted self
-                      is the biggest enemyv
+                      {{ item.title }}
                     </div>
                     <div class="science-text-card-body">
-                      At the beginning of the school season
+                      {{ item.periodical }}
                     </div>
-                  </li>
-                  <li>
-                    <div class="science-text-card-head">
-                      PUA against incomplete guidelines
-                    </div>
-                    <div class="science-text-card-body">PUA against</div>
                   </li>
                 </ul>
               </div>
@@ -154,211 +98,44 @@
 </template>
 
 <script>
+import { ref, reactive, onMounted } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import { getNew, getBook } from "@/utils/html";
 export default {
   name: "Knowledge",
+  setup() {
+    let News = reactive([]);
+    let Books = reactive([]);
+    onMounted(() => {
+      // 想要一进页面就发请求
+      getNew().then((res) => {
+        const data = res.data;
+        console.log(data);
+        //这里直接用News=data.data会失去响应式！！
+        News.push(...data.data);
+        console.log(News);
+      });
+      getBook().then((res) => {
+        const data = res.data;
+        console.log(data);
+        Books.push(...data.data);
+        console.log(Books);
+      });
+    });
+    const GoHref = (e) => {
+      // console.log(e); //获取点击的参数(url地址)
+      /*  // 在本页面打开感觉不是很友好
+      window.location.href = e; //在本页面打开外部链接 */
+      window.open(e, "_blank"); //在新窗口打开外链接
+    };
+    return {
+      News,
+      Books,
+      GoHref,
+    };
+  },
 };
 </script>
 
-<style scoped>
-/* banner */
-.banner {
-  margin: 0 auto;
-}
-
-.summer {
-  padding: 0 50px;
-  background: #fdf4cf;
-}
-
-.summer-show {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  height: 555px;
-}
-
-.summer-show > div {
-  flex: 1;
-}
-
-.summer-show-img {
-  padding: 80px 50px 0px 50px;
-}
-
-.summer-show-img img {
-  width: 100%;
-  height: 100%;
-}
-
-.summer-show-text {
-  position: relative;
-  padding: 110px 30px;
-  text-align: center;
-}
-
-.summer-show-text h3 {
-  font-size: 39px;
-  color: #ff4d4d;
-}
-
-.summer-show-text p {
-  margin-top: 50px;
-  font-size: 20px;
-  color: #000;
-}
-
-.bookList,
-.scienceAnnouncement {
-  width: 100%;
-}
-
-.booklist-show,
-.science-show {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  background: #fcf7f1;
-}
-
-.booklist-show h3,
-.science-show h3 {
-  width: 100%;
-  font-size: 28px;
-  text-align: center;
-  padding: 30px;
-  background: #fff;
-}
-
-.bookList-show-content {
-  display: flex;
-  padding-top: 45px;
-}
-
-.book-card {
-  width: 308px;
-  height: 400px;
-  margin: 15px 17px;
-  border-radius: 10px;
-  box-shadow: 0px 0px 5px#ccc;
-  overflow: hidden;
-  background: #fff;
-}
-
-.book-card-img {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-}
-
-.book-card-img img {
-  height: 98%;
-  max-width: 100%;
-  max-height: 100%;
-}
-
-.switch {
-  width: 600px;
-  margin: 50px auto;
-  height: 50px;
-}
-
-.switch ul {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.switch ul > li {
-  width: 45px;
-  height: 45px;
-  margin: 0 10px;
-  line-height: 45px;
-  text-align: center;
-  border-radius: 5px;
-  background: #fff;
-  color: #ffe284;
-  font-size: 18px;
-  font-weight: bold;
-}
-
-.science-show-li {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  padding: 50px;
-}
-
-.science-show-li-img {
-  width: 400px;
-  height: 400px;
-  padding: 20px;
-  border-radius: 15px;
-  background: #fff;
-}
-
-.science-show-li-img img {
-  width: 100%;
-}
-
-.science-show-li-text {
-  display: flex;
-  justify-content: space-between;
-  width: 864px;
-  height: 400px;
-  padding: 15px 30px;
-  border-radius: 15px;
-  background: #fff;
-}
-
-.science-show-li-text-card {
-  width: 357px;
-  height: 100%;
-  background: pink;
-}
-
-.science-show-li-text-card li {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  position: relative;
-  width: 100%;
-  height: 74px;
-  padding-left: 60px;
-  background: #fff;
-}
-
-.science-show-li-text-card li::before {
-  position: absolute;
-  top: 50%;
-  left: 0px;
-  transform: translateY(-50%);
-  content: "";
-  width: 43px;
-  height: 43px;
-  border-radius: 3px;
-  background: #ccc;
-  background: url(../../assets/images/science-li-icon5.jpg) center center
-    no-repeat;
-  background-size: 80% 80%;
-  overflow: hidden;
-}
-
-.science-show-li-text-card li > div {
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
-.science-text-card-head {
-  font-size: 16px;
-  font-weight: 545;
-  margin-bottom: 6px;
-}
-
-.science-text-card-body {
-  font-size: 13px;
-}
+<style scoped src="../../assets/styles/scss/knowledge.css">
 </style>

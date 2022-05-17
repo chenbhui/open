@@ -328,9 +328,31 @@ https://blog.csdn.net/weixin_44691513/article/details/109374231
   
   ```
 
-  
 
 
+
+#### <strong style="color:red">问题3：</strong>
+
+####  @import 的方式引入外部`CSS`文件
+
+```vue
+<style scoped>
+@import url("../../assets/styles/scss/chatRoom.css"); 
+</style>
+```
+
+<strong style="color:orange">相关知识：</strong>
+
+如果向上面这么引入，其他页面就会出现了样式错乱的问题，分离出来的那个样式文件的样式应用到了其他页面。
+而且，**不论是在首个页面还是其他页面我都有设置 scoped ，那么为什么会出现这种问题呢？**
+
+原因是，使用 **@import 的方式引入外部`CSS`文件，会绕开我们设置的 scoped 也就是只在当前页面生效，**所以这里我在这个页面@import 引入的 `css` 实际上是应用到全局中去了。
+
+<strong style="color:green">解决：</strong>换一种引入css文件的方式——通过 ***src*** 引入
+
+![image-20220517141302187](C:\Users\86157\AppData\Roaming\Typora\typora-user-images\image-20220517141302187.png)
+
+参考博客：https://blog.csdn.net/Excalibur_C/article/details/102594879
 
 
 
@@ -576,5 +598,98 @@ proxy.$message({text:'111'})//其中message已经是封装好的函数（具体�
               });
             }
           }); */
+```
+
+#### 3.`knowledge`页面
+
+```vue
+<script>
+import { ref, reactive, onMounted } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import { getNew, getBook } from "@/utils/html";
+export default {
+  name: "Knowledge",
+  setup() {
+    let News = reactive([]);
+    let Books = reactive([]);
+    onMounted(() => {
+      // 想要一进页面就发请求
+      getNew().then((res) => {
+        const data = res.data;
+        console.log(data);
+        //这里直接用News=data.data会失去响应式！！
+        News.push(...data.data);
+        console.log(News);
+      });
+      getBook().then((res) => {
+        const data = res.data;
+        console.log(data);
+        Books.push(...data.data);
+        console.log(Books);
+      });
+    });
+    const GoHref = (e) => {
+      // console.log(e); //获取点击的参数(url地址)
+      /*  // 在本页面打开感觉不是很友好
+      window.location.href = e; //在本页面打开外部链接 */
+      window.open(e, "_blank"); //在新窗口打开外链接
+    };
+    return {
+      News,
+      Books,
+      GoHref,
+    };
+  },
+```
+
+##### `vue3`中的reactive函数声明数组
+
+```js
+let arr = reactive([]);
+let newArr = [1,2,3]
+arr = newArr;//会失去响应式
+
+//响应式方式
+（1）使用数组的push方法
+arr.push(...newArr)
+（2）使用ref函数
+let arrs=ref()
+arr.value=newArr
+```
+
+##### `Vue`列表点击跳转外部链接
+
+https://blog.csdn.net/millia/article/details/114936021
+
+```vue
+<template>
+    <ul class="list">
+        <li v-for="item in list" :key="item.id">
+        <!--vodShow(item.id)方法点击打开弹出层观看直播视频-->
+        <div @click="vodShow(item.id)">
+        <img src="images/img01.jpg">
+        <b>{{item.name}}</b>
+        <i class="stop" v-if="item.state == 0">已结束请看回放</i>
+        <i class="now" v-if="item.state == 1">会议进行中</i>
+        <i v-if="item.state == 2">会议预计{{item.time}}开始</i>
+        </div>
+        <!--GoUrl(item.reback)方法跳转外部链接地址-->
+        <p @click="GoUrl(item.reback)">观看回放</p>
+        </li>
+    </ul>
+</template>
+<script>    
+    GoUrl(event){
+        //console.log(event); //获取点击的参数(url地址)
+        window.open(event,"_blank"); //在新窗口打开外链接
+        window.location.href = event; //在本页面打开外部链接
+    }
+</script>    
+```
+
+##### 加载完就自动发送请求
+
+```js
+onMounted(() => {})
 ```
 
