@@ -33,6 +33,18 @@ https://www.bilibili.com/video/BV1BA4y1X7bp
 
 
 
+# 辅助网站
+
+## 图床
+
+作用:托管图片，生成图片地址
+
+https://imgtu.com/
+
+![image-20220517221625450](C:\Users\86157\AppData\Roaming\Typora\typora-user-images\image-20220517221625450.png)
+
+
+
 # Open项目细节
 
 ### login
@@ -354,7 +366,103 @@ https://blog.csdn.net/weixin_44691513/article/details/109374231
 
 参考博客：https://blog.csdn.net/Excalibur_C/article/details/102594879
 
+#### <strong style="color:red">问题4：</strong>
 
+#### GET http://192.168.0.102:8080/sockjs-node/info?t=1647433830643 net::ERR_CONNECTION_REFUSED
+
+```vue
+在用vue的时候遇到GET http://192.168.0.102:8080/sockjs-node/info?t=1647433830643 net::ERR_CONNECTION_REFUSED的报错，就像下面这样：
+```
+
+![image-20220519110809407](C:\Users\86157\AppData\Roaming\Typora\typora-user-images\image-20220519110809407.png)
+
+<strong style="color:orange">相关知识：</strong>
+
+首先 sockjs-node是一个JavaScript库，提供跨浏览器JavaScript的API，创建了一个低延迟、全双工的浏览器和web服务器之间通信通道。
+
+服务端：sockjs-node（https://github.com/sockjs/sockjs-node）
+客户端：sockjs-clien（https://github.com/sockjs/sockjs-client）
+
+如果你的项目没有用到 sockjs，vuecli 运行 npm run serve 之后 network
+里面一直调研一个接口，所以我们需要从根源上关闭这个调用。
+
+<strong style="color:green">解决：</strong>
+
+（1）找到这个文件：`…/node_modules/sockjs-client/dist/sockjs.js`
+
+（2）在大概1600多行，找到 `*self.xhr.send(payload);*` 注释掉
+
+![image-20220519111343135](C:\Users\86157\AppData\Roaming\Typora\typora-user-images\image-20220519111343135.png)
+
+原文链接：https://blog.csdn.net/weixin_45771601/article/details/123535613
+
+
+
+#### <strong style="color:red">问题5：</strong>
+
+####  Vue中使用v-for遍历本地图片地址不正确
+
+![image-20220519111925142](C:\Users\86157\AppData\Roaming\Typora\typora-user-images\image-20220519111925142.png)
+
+错误代码：
+
+```vue
+<div class="hsimg">
+  <img
+    v-for="(item, index) in hsImg"
+    :key="index"
+    :src="item"
+    alt="图"
+  />
+</div>
+data() {
+return {
+  hsImg: [
+    "../assets/images/hsimg01.png",
+    "../assets/images/hsimg02.png",
+    "../assets/images/hsimg03.png",
+    "../assets/images/hsimg04.png",
+    "../assets/images/hsimg05.png"
+  ]
+};
+}
+```
+
+<strong style="color:orange">相关知识：</strong>
+
+（1）img 的src 绑定的是变量，它和写死的路径不应该是一样吗？打开浏览器控制台，看到如下内容，**img 的src 已经是一个字符串**，它不是我们想要的变量了。可能是它对item进行了一次解析变成了字符串.
+
+<strong style="color:green">解决：</strong>
+
+（1）把`item`变成图片的地址，这样进行一次解析的时候，直接去读取图片。
+
+有人提到了require 方法， require 一个图片路径，require 是一个commonJs 规范的关键字，当我们在写node 代码的时候，都是有require 去读取资源的。`webpack` 把`img` 当做一种资源，所以使用时要先引进。引进方式有两种，一种是import ， 一种是require， 因为webpack 同时支持`ES6` module 和 commonJs 规范. import 是个语句，只能在js 代码顶部使用， 而require 不一样，它是一个表达式，可以进行赋值操作。
+
+```vue
+<div class="hsimg">
+  <img
+    v-for="(item, index) in hsImg"
+    :key="index"
+    :src="item"
+    alt="图"
+  />
+</div>
+data() {
+return {
+  hsImg: [
+    require("../assets/images/hsimg01.png"),
+    require("../assets/images/hsimg02.png"),
+    require("../assets/images/hsimg03.png"),
+    require("../assets/images/hsimg04.png"),
+    require("../assets/images/hsimg05.png"),
+  ]
+};
+}
+```
+
+（2）利用图床托管图片，生成图片外部地址，就不会有这种问题
+
+参考博客：https://www.jb51.net/article/146731.htm
 
 ### Learn
 
@@ -692,4 +800,14 @@ https://blog.csdn.net/millia/article/details/114936021
 ```js
 onMounted(() => {})
 ```
+
+##### 实现分页请求
+
+详情请见：open项目knowlege模块
+
+
+
+
+
+
 

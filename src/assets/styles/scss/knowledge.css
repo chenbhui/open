@@ -97,31 +97,6 @@
     max-height: 100%;
 }
 
-.switch {
-    width: 600px;
-    margin: 50px auto;
-    height: 50px;
-}
-
-.switch ul {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.switch ul>li {
-    width: 45px;
-    height: 45px;
-    margin: 0 10px;
-    line-height: 45px;
-    text-align: center;
-    border-radius: 5px;
-    background: #fff;
-    color: #ffe284;
-    font-size: 18px;
-    font-weight: bold;
-}
-
 .science-show-li {
     display: flex;
     justify-content: space-between;

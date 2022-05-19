@@ -25,43 +25,19 @@
         <div class="booklist-show">
           <h3>Delve in deeper</h3>
           <div class="bookList-show-content">
-            <div class="book-card">
+            <div class="book-card" v-for="item in Books" :key="item.id">
               <div class="book-card-img">
-                <img
-                  src="../../assets/images/book_21.jpg"
-                  alt=""
-                  title="名字+作者"
-                />
+                <img :src="item.imgAddress" :title="item.title" />
               </div>
-            </div>
-            <div class="book-card">
-              <div class="book-card-img">
-                <img src="../../assets/images/book_22.jpg" alt="" />
-              </div>
-              <div class="book-card-text"></div>
-            </div>
-            <div class="book-card">
-              <div class="book-card-img">
-                <img src="../../assets/images/book_23.jpg" alt="" />
-              </div>
-              <div class="book-card-text"></div>
-            </div>
-            <div class="book-card">
-              <div class="book-card-img">
-                <img src="../../assets/images/book_24.jpg" alt="" />
-              </div>
-              <div class="book-card-text"></div>
             </div>
           </div>
-          <div class="switch">
-            <ul>
-              <li>&lt;</li>
-              <li>1</li>
-              <li>2</li>
-              <li>3</li>
-              <li>></li>
-            </ul>
-          </div>
+          <!-- 调用myPaginationVue组件 -->
+          <myPaginationVue
+            :total="bookInfo.total"
+            :pagesize="bookInfo.pagesize"
+            :currentPage="bookInfo.currentPage"
+            @change-page="changePage"
+          />
         </div>
       </div>
       <!-- 科普类公告 -->
@@ -101,11 +77,26 @@
 import { ref, reactive, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { getNew, getBook } from "@/utils/html";
+import myPaginationVue from "@/components/my-pagination/my-pagination.vue";
 export default {
   name: "Knowledge",
+  components: {
+    myPaginationVue,
+  },
   setup() {
     let News = reactive([]);
     let Books = reactive([]);
+    // 获取书籍列表的参数对象
+    const bookInfo = reactive({
+      query: "",
+      //数据总条数
+      total: 16,
+      // 当前的页数
+      currentPage: 1,
+      // 当前每页显示多少条数据
+      pagesize: 4,
+    });
+
     onMounted(() => {
       // 想要一进页面就发请求
       getNew().then((res) => {
@@ -115,23 +106,40 @@ export default {
         News.push(...data.data);
         console.log(News);
       });
-      getBook().then((res) => {
+      let { currentPage, pagesize } = bookInfo;
+      getBook({ currentPage, pagesize }).then((res) => {
         const data = res.data;
         console.log(data);
         Books.push(...data.data);
-        console.log(Books);
       });
     });
+
     const GoHref = (e) => {
       // console.log(e); //获取点击的参数(url地址)
       /*  // 在本页面打开感觉不是很友好
       window.location.href = e; //在本页面打开外部链接 */
       window.open(e, "_blank"); //在新窗口打开外链接
     };
+    const changePage = (value) => {
+      //value是点击的页码
+      // console.log(value);
+      bookInfo.currentPage = value;
+      bookInfo.pagesize = 4;
+      let { currentPage, pagesize } = bookInfo;
+      getBook({ currentPage, pagesize }).then((res) => {
+        const data = res.data;
+        console.log(data);
+        // 先把Books置空
+        Books.length = 0;
+        Books.push(...data.data);
+      });
+    };
     return {
       News,
       Books,
+      bookInfo,
       GoHref,
+      changePage,
     };
   },
 };

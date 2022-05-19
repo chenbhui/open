@@ -13,4 +13,4 @@ export const Register = (params) => request.post('/api/register', params);
 //New获取
 export const getNew = () => request.get('/knowledge/News');
 // Books获取
-export const getBook = () => request.get('/knowledge/Books');
+export const getBook = (params) => request.post('/knowledge/Books', params);
