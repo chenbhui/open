@@ -15,10 +15,28 @@
               otherwise you will bear the consequences.
             </p>
             <div class="commitVerification">
-              <div class="commitCode">
-                <input type="text" placeholder="输入班级代号" />
-              </div>
-              <div class="commitConfirm">Confirm</div>
+              <form action="">
+                <div class="commitCode">
+                  <input type="text" placeholder="输入班级代号" />
+                </div>
+                <div class="commitConfirm" @click="changeShowfilecommit">
+                  Upload
+                </div>
+                <!-- 上传区域 -->
+                <div class="classCommit" v-if="showfilecommit">
+                  <div class="fileBox">
+                    <div class="loadBox">
+                      <input type="file" multiple="multiple" />
+                      <p class="picture iconfont icon-segi-icon-download"></p>
+                    </div>
+                    <div
+                      class="closeload iconfont icon-guanbi"
+                      @click="changeShowfilecommit"
+                    ></div>
+                    <div class="filecommitBtn">Commit</div>
+                  </div>
+                </div>
+              </form>
             </div>
           </div>
         </div>
@@ -195,6 +213,7 @@ export default {
     const showBarometerForm = ref(false);
     const showchatWindowRoom = ref(false);
     const showfacePrint = ref(false);
+    const showfilecommit = ref(false);
     const changeFillBtn = () => {
       showBarometerForm.value = !showBarometerForm.value;
     };
@@ -204,13 +223,18 @@ export default {
     const changefacePrint = () => {
       showfacePrint.value = !showfacePrint.value;
     };
+    const changeShowfilecommit = () => {
+      showfilecommit.value = !showfilecommit.value;
+    };
     return {
       showBarometerForm,
       showchatWindowRoom,
       showfacePrint,
+      showfilecommit,
       changeFillBtn,
       changechatWindow,
       changefacePrint,
+      changeShowfilecommit,
     };
   },
 };
