@@ -14,7 +14,17 @@
           <li><router-link to="/knowledge">PSY KNOWLEDGE</router-link></li>
           <li><a href="javascript:;">ABOUT US</a></li>
           <!-- router-link是声明式导航，无法有其他业务逻辑，只能跳转，编程式导航（replace、push）才能有其他业务 -->
-          <li><router-link to="login">SIGN IN</router-link></li>
+          <li>
+            <router-link to="login" v-if="!showUser">SIGN IN</router-link>
+          </li>
+          <li class="authorPart" v-if="showUser">
+            <div class="authorImg" @click="changeshowexit">
+              <img src="../../assets/images/authorPhoto.jpg" alt="" />
+            </div>
+            <div class="authorPartItem">
+              <p class="exit" v-show="showexit" @click="exitload">退出</p>
+            </div>
+          </li>
         </ul>
       </div>
     </div>
@@ -22,9 +32,34 @@
 </template>
 
 <script>
+import { ref, onMounted } from "vue";
 export default {
   name: "Header",
-  setup() {},
+  setup() {
+    const showUser = ref(false);
+    const showexit = ref(false);
+    onMounted(() => {
+      let userId = sessionStorage.getItem("userId");
+      if (userId === null || userId === "") {
+        showUser.value = false;
+      } else {
+        showUser.value = true;
+      }
+    });
+    const exitload = () => {
+      sessionStorage.setItem("userId", "");
+      location.reload();
+    };
+    const changeshowexit = () => {
+      showexit.value = !showexit.value;
+    };
+    return {
+      showUser,
+      showexit,
+      exitload,
+      changeshowexit,
+    };
+  },
 };
 </script>
 
@@ -86,5 +121,48 @@ export default {
   line-height: 60px;
   font-size: 17px;
   letter-spacing: 1px;
+}
+.nav li.authorPart {
+  position: relative;
+  display: flex;
+  height: 50px;
+  cursor: pointer;
+}
+
+.nav li.authorPart div.authorImg {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  overflow: hidden;
+}
+
+.nav li.authorPart div img {
+  width: 100%;
+  height: 100%;
+}
+
+.nav li.authorPart div.authorName {
+  line-height: 45px;
+}
+.authorPartItem {
+  position: absolute;
+  top: 65px;
+  left: -9px;
+  width: 80px;
+  border-radius: 0 0 15px 15px;
+  background: #ffe284;
+  overflow: hidden;
+  z-index: 9999;
+}
+.authorPartItem p.exit {
+  width: 100%;
+  height: 30px;
+  text-align: center;
+  line-height: 30px;
+  color: #fff;
+  font-weight: bold;
+  letter-spacing: 2px;
+  cursor: pointer;
 }
 </style>

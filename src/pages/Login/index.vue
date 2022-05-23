@@ -105,15 +105,15 @@ export default {
         Login({ username, password }).then((res) => {
           console.log(res.data);
           const data = res.data;
+          console.log(data);
           if (data.status == 1) {
             Message({ type: "error", text: "用户名或者密码错误" });
           } else if (data.status == 0) {
             Message({ type: "success", text: "登录成功·" });
             // 存储用户信息
-            // const { id, username, avatar, token } = data.result;
-            // store.commit("user/setUser", { id, username, avatar, token });
+            sessionStorage.setItem("userId", data.data.id);
             // 跳转页面
-            router.push(route.query.redirectUrl || "/");
+            router.push(route.query.redirectUrl || "/home");
           } else {
             Message({ type: "warn", text: "发生异常" });
           }

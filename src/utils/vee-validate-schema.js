@@ -11,9 +11,7 @@ export default {
         if (!/^\w{6,24}$/.test(value)) return '密码是6-24个字符'
         return true
     },
-    confirmPwd(value) {
-        if (!value) return "请重新确认密码";
-    },
+
     mobile(value) {
         if (!value) return '请输入手机号码'
         if (!/^1[3-9]\d{9}$/.test(value)) return '手机号格式错误'
@@ -28,9 +26,32 @@ export default {
         if (!value) return '请勾选同意用户协议'
         return true
     },
-    /*  // 再次输入的密码是否与原先密码相同
-     isPwdSame(pwd, comfire) {
-         if (pwd != comfire) return '密码不一致'
-     } */
-
+    qybdate(value) {
+        if (!value) return '请输入日期'
+        return true
+    },
+    qybname(value) {
+        if (!value) return '请输入姓名'
+        return true
+    },
+    qybclassNum(value) {
+        if (!value) return '请输入班级学号'
+        return true
+    },
+    qybSex(value) {
+        if (!value) return '请输入性别'
+        return true
+    },
+    qybschool(value) {
+        if (!value) return '请输入所在学校'
+        return true
+    },
+    qybphone(value) {
+        if (!value) return '请输入手机号码'
+        return true
+    },
+    qybFreetime(value) {
+        if (!value) return '请输入空档期'
+        return true
+    }
 }

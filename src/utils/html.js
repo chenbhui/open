@@ -14,3 +14,7 @@ export const Register = (params) => request.post('/api/register', params);
 export const getNew = () => request.get('/knowledge/News');
 // Books获取
 export const getBook = (params) => request.post('/knowledge/Books', params);
+// files上传
+export const loadfiles = (params) => request.post('/chat/loadfile', params);
+//用户个人晴雨表
+export const userQingyubiao = (params) => request.post('/chat/userQingyubiao', params);

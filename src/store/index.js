@@ -5,10 +5,15 @@ import user from './modules/user'
 // 创建仓库
 export default createStore({
     state: {
-
+        //存储token
+        Authorization: localStorage.getItem('Authorization') ? localStorage.getItem('Authorization') : ''
     },
     mutations: {
-
+        // 修改token
+        changeLogin(state, user) {
+            state.Authorization = user.Authorization;
+            localStorage.setItem('Authorization', user.Authorization);
+        }
     },
     actions: {
 

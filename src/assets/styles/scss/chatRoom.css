@@ -166,11 +166,15 @@
     background: #fff;
 }
 
-.classCommit .fileBox .loadBox {
+.classCommit .fileBox #drop-area {
     position: relative;
     width: 400px;
     height: 175px;
     border: 3px dashed #f2cc16;
+}
+
+.drop-active {
+    background: rgba(231, 234, 246, 0.8);
 }
 
 .icon-segi-icon-download:before {
@@ -178,20 +182,20 @@
     font-size: 80px;
 }
 
-.classCommit .fileBox .loadBox input {
+.classCommit .fileBox #drop-area input {
     width: 100%;
     height: 100%;
     opacity: 0;
 }
 
-.classCommit .fileBox .loadBox .picture {
+.classCommit .fileBox #drop-area .picture {
     position: absolute;
     top: 26px;
     left: 50%;
     transform: translateX(-50%);
 }
 
-.classCommit .fileBox .loadBox .picture::after {
+.classCommit .fileBox #drop-area .picture::after {
     content: "点击上传或拖拽";
     display: block;
     width: 136px;
@@ -635,6 +639,7 @@
 }
 
 .Barometer-form-content form>div {
+    position: relative;
     display: flex;
     align-items: center;
     margin: 20px 0;
@@ -677,6 +682,8 @@
     min-height: 200px;
     padding: 10px;
     outline: none;
+    background: #f0f1f4;
+    border-radius: 10px;
 }
 
 .Barometer-form-commit {
@@ -703,4 +710,15 @@
     font-size: 49px;
     color: #f2cc16;
     text-shadow: 0 0 3px #fff;
+}
+
+.Barometer-form-content form>div .error {
+    position: absolute;
+    top: 39px;
+    left: 136px;
+    color: red;
+}
+
+.Barometer-form-content form>div .error i {
+    font-size: 12px;
 }

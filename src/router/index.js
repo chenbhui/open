@@ -47,30 +47,22 @@ router.beforeEach((to,from,next)=>{
 //next调用
 })
 */
-// router.beforeEach((to, from, next) => {
-//     // 登陆注册页面可以直接加入，主页面需要分情况
-//     if (to.path == '/login') {
-//         next();
-//         console.log(localStorage.s);
-//     } else if (to.path == '/register') {
-//         next();
-//     } else {
-//         // 从登陆页面可以直接跳到首页
-//         if (from.path == './login') {
-//             next();
-//         } else {  
-//             // 从"/"进入，如果登陆状态是true,则直接next 进入主页面
-//             /*  if (localStorage.s == 'true') {
-//                  next();
-//                  console.log(localStorage['s']);
-//              } else {
-//                  // 如果登陆状态是false,那么跳转到登录页面，需要登录才能进入主页
-//                  next('login');
-//                  console.log("需要登录");
-//              } */
-//         }
-//     }
-// })
+router.beforeEach((to, from, next) => {
+    // 登陆注册页面可以直接加入，主页面需要分情况
+    if (to.path == '/login') {
+        next();
+    } else {
+        let userId = sessionStorage.getItem('userId');
+        console.log(JSON.stringify(userId));
+        if (userId === null || userId === '') {
+            // 没有userId
+            console.log("userId=== null || userId === ''");
+            next('./login');
+        } else {
+            next();
+        }
+    }
+})
 
 
 export default router;
