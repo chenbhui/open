@@ -137,17 +137,16 @@ export default {
       useriden.value = item.identity;
       form.identity = item.index;
     };
-    // 点击登录时对整体表单进行验证
+    // 点击注册时对整体表单进行验证
     const store = useStore();
     const router = useRouter(); //拿路由信息
     const route = useRoute();
     const register = async () => {
       const valid = await formCom.value.validate();
-      console.log(valid);
       //2.成功：存储用户信息+跳转到登录页+消息提示    失败：消息提示
       if (valid) {
         const { username, password, confirmPwd, identity } = form;
-        console.log(form);
+        // console.log(form);
         Register({ username, password, confirmPwd, identity }).then((res) => {
           const data = res.data;
           console.log(data);

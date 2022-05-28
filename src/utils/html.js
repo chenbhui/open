@@ -18,3 +18,5 @@ export const getBook = (params) => request.post('/knowledge/Books', params);
 export const loadfiles = (params) => request.post('/chat/loadfile', params);
 //用户个人晴雨表
 export const userQingyubiao = (params) => request.post('/chat/userQingyubiao', params);
+// 获取工作人员值日
+export const getworker = (params) => request.post('/api/getworker', params);

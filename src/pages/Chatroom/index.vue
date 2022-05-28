@@ -15,11 +15,11 @@
               otherwise you will bear the consequences.
             </p>
             <div class="commitVerification">
-              <form action="" reactive="form">
+              <form action="" reactive="form" enctype="multipart/form-data">
                 <div class="commitCode">
                   <input
                     type="text"
-                    placeholder="输入班级代号"
+                    placeholder="输入班级代号+周数,例:(200+13)"
                     v-model="form.classNum"
                   />
                 </div>
@@ -79,7 +79,7 @@
                 <img src="../../assets/images/authorPhoto.jpg" alt="" />
               </div>
               <div class="worker-data">
-                <h3>Tomtu</h3>
+                <h3>{{ worker[0].workerNickname }}</h3>
                 <p>Support Agent</p>
               </div>
               <div class="work-good iconfont icon-zans"></div>
@@ -94,11 +94,15 @@
                 </div>
                 <div class="Say">hi!今天过得怎么样</div>
               </div>
-              <div class="chat-show-my clearfix">
+              <div
+                class="chat-show-my clearfix"
+                v-for="item of msgList"
+                :key="item.id"
+              >
                 <div class="chat-show-Photo">
                   <img src="img/doctorPhoto2.jpg" alt="" />
                 </div>
-                <div class="Say">hhi!今天过得怎么样</div>
+                <div class="Say" id="mySay">{{ item.msg }}</div>
               </div>
             </div>
             <div class="chat-edit">
@@ -113,31 +117,26 @@
                   <p class="iconfont"></p>
                 </div>
                 <div class="chat-spare">
-                  <div class="chat-fuWenBen" contenteditable="true"></div>
-                  <textarea
-                    name="message"
-                    id="content"
-                    style="display: none"
-                  ></textarea>
+                  <div
+                    class="chat-fuWenBen"
+                    contenteditable="true"
+                    ref="fuwenbenMsg"
+                  ></div>
                 </div>
+                <!-- 遍历本地图片的另一种解决方法：require() -->
                 <div class="facePrint" v-if="showfacePrint">
                   <ul class="facePrintUl">
-                    <li><img src="" alt="" /></li>
-                    <li><img src="" alt="" /></li>
-                    <li><img src="" alt="" /></li>
-                    <li><img src="" alt="" /></li>
-                    <li><img src="" alt="" /></li>
-                    <li><img src="" alt="" /></li>
-                    <li><img src="" alt="" /></li>
-                    <li><img src="" alt="" /></li>
-                    <li><img src="" alt="" /></li>
-                    <li><img src="" alt="" /></li>
+                    <li v-for="(item, index) in emoij" :key="index">
+                      <img :src="item" alt="图" />
+                    </li>
                   </ul>
                 </div>
               </form>
             </div>
           </div>
-          <div class="chatWindowRoom-footer">Power by Open</div>
+          <div class="chatWindowRoom-footer" @click="handleSendBtn">
+            Power by Open
+          </div>
         </div>
         <!-- 填写晴雨表 -->
         <div class="Barometer-form" v-if="showBarometerForm">
@@ -284,8 +283,10 @@
 </template>
 
 <script>
-import { ref, reactive } from "vue";
-import { loadfiles, userQingyubiao } from "@/utils/html";
+import { ref, reactive, onMounted, toRefs } from "vue";
+import { useRouter } from "vue-router";
+import { useWebSocket } from "@/hooks";
+import { loadfiles, userQingyubiao, getworker } from "@/utils/html";
 import { Form, Field } from "vee-validate";
 import schema from "@/utils/vee-validate-schema";
 import Message from "../../components/Message/Message"; //函数
@@ -297,8 +298,67 @@ export default {
     const showchatWindowRoom = ref(false);
     const showfacePrint = ref(false);
     const showfilecommit = ref(false);
-    // const curfiles = reactive([]); //装文件的数组
-    // 班级晴雨表的form
+    // （1）聊天室部分
+    /*聊天框的表情包：这里只是为了测试用require()解决遍历本地图片问题*/
+    const emoij = reactive([
+      require("../../assets/images/emoij/大哭.png"),
+      require("../../assets/images/emoij/点个赞.png"),
+      require("../../assets/images/emoij/调皮.png"),
+      require("../../assets/images/emoij/愤怒.png"),
+      require("../../assets/images/emoij/惊讶.png"),
+      require("../../assets/images/emoij/开心.png"),
+      require("../../assets/images/emoij/满意.png"),
+      require("../../assets/images/emoij/亲好评.png"),
+      require("../../assets/images/emoij/伤心.png"),
+      require("../../assets/images/emoij/睡觉.png"),
+      require("../../assets/images/emoij/贪吃.png"),
+      require("../../assets/images/emoij/喜欢.png"),
+      require("../../assets/images/emoij/笑.png"),
+      require("../../assets/images/emoij/一般.png"),
+      require("../../assets/images/emoij/疑问.png"),
+      require("../../assets/images/emoij/愉快.png"),
+    ]);
+    const router = useRouter();
+    const fuwenbenMsg = ref(null);
+    let msgList = reactive([]);
+    let worker = reactive([]);
+    let userId = "";
+    let receiveid = "";
+    onMounted(() => {
+      userId = sessionStorage.getItem("userId");
+      if (!userId) {
+        router.push("/login");
+        return;
+      }
+      //获取工作人员信息
+      const today = new Date().getDay();
+      getworker({ today: today }).then((res) => {
+        const data = res.data.data;
+        worker.push(...data);
+        receiveid = worker[0].id;
+      });
+    });
+    const ws = useWebSocket(handleMessage);
+    const handleSendBtn = () => {
+      const _msg = fuwenbenMsg.value.innerHTML;
+      /* 去掉空格后看是否有文字 */
+      if (!_msg.trim().length) {
+        return;
+      }
+      console.log("我发过去了！！！");
+      ws.send(
+        JSON.stringify({
+          sendid: userId,
+          receiveid: receiveid,
+          dateTime: new Date().getTime(), //这个可以用来显示时间（与现在间隔超过二分钟的要显示一次当前事件）
+          msg: _msg,
+        })
+      );
+      fuwenbenMsg.value.innerHTML = "";
+    };
+
+    // （2）晴雨表部分
+    /* 班级晴雨表的form */
     const form = reactive({
       classNum: null,
       files: [],
@@ -325,7 +385,6 @@ export default {
       qybphone: schema.qybphone,
       qybFreetime: schema.qybFreetime,
     };
-
     const commituserQingyubiao = async () => {
       console.log(formCom.value);
       const valid = await formCom.value.validate();
@@ -337,7 +396,6 @@ export default {
             Message({ type: "error", text: "请准确填写个人信息" });
           } else if (data.status == 0) {
             Message({ type: "success", text: "晴雨表已提交·" });
-            // showBarometerForm.value=!showBarometerForm.value;
             location.reload();
           }
         });
@@ -372,12 +430,40 @@ export default {
       }
     };
     // 发送到后台
-    const commitFile = () => {
+    const commitFile = async () => {
       console.log(form);
-      loadfiles(form).then((res) => {
-        console.log(11);
-      });
+      if (form.classNum == "") {
+        console.log(form.classNum);
+        Message({ type: "warn", text: "请先输入班级号" });
+      } else if (form.files.length == 0) {
+        console.log(form.files.length);
+        Message({ type: "warn", text: "请上传文件" });
+      } else {
+        let formData = new FormData();
+        console.log(form.classNum);
+        console.log(form.files);
+        formData.append("classNum", form.classNum);
+        for (let i = 0; i < form.files.length; i++) {
+          formData.append("file", form.files[i]);
+        }
+        console.log(formData.getAll("file"));
+        await loadfiles(formData)
+          .then((res) => {
+            Message({ type: "success", text: "上传成功" });
+            console.log(res.data);
+            showfilecommit.value = !showfilecommit.value;
+            form.classNum = "";
+          })
+          .catch(() => {
+            Message({ type: "error", text: "上传失败" });
+          });
+      }
     };
+    function handleMessage(e) {
+      console.log(e); //{"type":"text","id":"6"}
+      const _msgdata = JSON.parse(e.data);
+      msgList.push(_msgdata);
+    }
     return {
       showBarometerForm,
       showchatWindowRoom,
@@ -386,14 +472,21 @@ export default {
       form,
       formCom,
       userForm,
+      emoij,
+      msgList,
       schema: myschema,
       changeFillBtn,
       changechatWindow,
       changefacePrint,
       changeShowfilecommit,
       getfile,
+      worker,
+      fuwenbenMsg,
+      handleSendBtn,
+      ws,
       commitFile,
       commituserQingyubiao,
+      handleMessage,
     };
   },
 };

@@ -53,7 +53,7 @@ router.beforeEach((to, from, next) => {
         next();
     } else {
         let userId = sessionStorage.getItem('userId');
-        console.log(JSON.stringify(userId));
+        // console.log(JSON.stringify(userId));
         if (userId === null || userId === '') {
             // 没有userId
             console.log("userId=== null || userId === ''");

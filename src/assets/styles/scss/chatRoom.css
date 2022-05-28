@@ -227,6 +227,7 @@
     font-weight: bold;
     background: #ffd717;
     color: #fff;
+    cursor: pointer;
 }
 
 /* 晴雨表的按钮 */
@@ -420,6 +421,8 @@
     flex-direction: row-reverse;
 }
 
+
+
 .chat-show>div .chat-show-Photo {
     width: 30px;
     height: 30px;
@@ -437,12 +440,17 @@
     color: rgba(0, 0, 0, .7);
     font-size: 13px;
     letter-spacing: 1px;
+    word-wrap: break-word;
 }
+
+
 
 .chat-show>div.chat-show-he .Say {
     background: #fff;
     box-shadow: 0 0 8px #ffe36b;
 }
+
+
 
 .chat-show>div .Say img {
     width: 20px;
@@ -459,6 +467,7 @@
 .chat-show>div.chat-show-my .Say {
     background-color: #fdf4cf;
     box-shadow: 0 0 8px #ffe36b;
+    border-radius: 10px 0 10px 10px;
 }
 
 .chat-show>div .Photo img {
@@ -567,7 +576,10 @@
     width: 20px;
     height: 20px;
     margin: 2px;
-    background: #ccc;
+}
+
+.facePrintUl li img {
+    width: 100%;
 }
 
 
@@ -581,6 +593,7 @@
     font-size: 13px;
     color: #fff;
     background: #f2cc16;
+    cursor: pointer;
 }
 
 .chat-fuWenBen {
