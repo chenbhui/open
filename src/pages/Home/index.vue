@@ -14,7 +14,7 @@
               No matter how dark the moment is, love and expectation are always
               ahead. The world is very simple, so is life.
             </p>
-            <div class="btnOPEN">EXPLORE OPEN</div>
+            <div class="btnOPEN">SLIDE DOWN</div>
           </div>
         </div>
       </div>
@@ -32,7 +32,7 @@
               We help the person who needs help to resolve their inner emotions.
               Speak out your troubles in the form of a barometer.
             </p>
-            <div class="btnOPEN">Read more</div>
+            <div class="btnOPEN" @click="tochatRoom">Read more</div>
           </div>
           <div class="service-show-img">
             <img src="../../assets/images/psyservice.svg" alt="" />
@@ -80,7 +80,7 @@
       <div class="psy-knowledge">
         <h3>Gain the full control over reaching your leads</h3>
         <div class="knowledge-show">
-          <div class="knowledge-show-book">
+          <div class="knowledge-show-book" @click="toknowledge">
             <div class="knowledge-show-img">
               <img src="../../assets/images/knowledgeBook.jpg" alt="" />
             </div>
@@ -92,13 +92,13 @@
               <p>you may defind the</p>
             </div>
           </div>
-          <div class="knowledge-show-case">
+          <div class="knowledge-show-case" @click="toknowledge">
             <div class="knowledge-show-img">
               <img src="../../assets/images/knowlegeCase.jpg" alt="" />
             </div>
             <div class="knowledge-show-text">
               <div class="knowledgev-show-text">
-                <h4>Auto-schedule your books</h4>
+                <h4>Auto-schedule your News</h4>
                 <p>you may defind the number of attempt youer agent</p>
                 <p>you may defind the number of attempt</p>
                 <p>you may defind the number of attempt youer agent</p>
@@ -109,7 +109,7 @@
         </div>
       </div>
       <!-- 关于我们 -->
-      <div class="readus">
+      <div class="readus" @click="toUs">
         <div class="readus-img"></div>
         <div class="readus-text">
           <div class="readus-text-card">
@@ -143,8 +143,29 @@
 </template>
 
 <script>
+import { useRouter } from "vue-router";
 export default {
   name: "Home",
+  setup() {
+    const router = useRouter(); //拿路由信息
+    let userId = sessionStorage.getItem("userId");
+    const tochatRoom = () => {
+      if (userId === null || userId === "") {
+        router.push("/login");
+      } else {
+        router.push("/chatroom");
+      }
+    };
+    const toknowledge = () => {
+      router.push("/knowledge");
+    };
+    const toUs = () => {};
+    return {
+      tochatRoom,
+      toknowledge,
+      toUs,
+    };
+  },
 };
 </script>
 
@@ -227,6 +248,7 @@ export default {
   color: #fff;
   border-radius: 5px;
   background: rgba(255, 77, 77, 0.8);
+  cursor: pointer;
 }
 
 .cooperation-sign {
@@ -251,6 +273,7 @@ export default {
   border-radius: 7px;
   box-shadow: 0px 0px 5px#ccc;
   background: #fff;
+  cursor: pointer;
 }
 
 .knowledge-show-img {

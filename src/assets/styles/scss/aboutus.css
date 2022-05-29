@@ -1,0 +1,284 @@
+/* banner */
+.banner {
+    width: 1200px;
+    margin: 50px auto;
+    border-radius: 15px;
+    background: #fff;
+    padding: 0 50px 50px 50px;
+}
+
+.aboutus-show {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    height: 555px;
+    margin-top: 45px;
+    padding: 0 36px;
+}
+
+.aboutus-show>div {
+    flex: 1;
+}
+
+.aboutus-show-img {
+    padding: 80px 50px 30px 50px;
+}
+
+.aboutus-show-img img {
+    width: 100%;
+    height: 100%;
+}
+
+.aboutus-show-text {
+    position: relative;
+    padding: 110px 30px;
+    text-align: center;
+}
+
+
+.aboutus-show-text h3 {
+    font-size: 39px;
+    color: #ff4d4d;
+}
+
+.aboutus-show-text p {
+    margin-top: 50px;
+    font-size: 20px;
+    color: #000;
+}
+
+.aboutus-show-text .btnOPEN {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 245px;
+    height: 60px;
+    margin-top: 80px;
+    line-height: 60px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #fff;
+    border-radius: 5px;
+    background: rgba(255, 77, 77, 0.8);
+    cursor: pointer;
+}
+
+
+.readus-img {
+    width: 100%;
+    height: 500px;
+    margin-top: 50px;
+    background: url(/img/aboutus.20e061a6.svg) center center no-repeat;
+    background-size: 100%;
+}
+
+.aboutus-show-img {
+    background: url(../../images/aboutus-look.jpg) center 0px no-repeat;
+    background-size: 136%;
+}
+
+.meet,
+.editdata {
+    width: 100%;
+    margin-bottom: 75px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 40px;
+    letter-spacing: 1px;
+}
+
+
+
+.myselfAnnouncement,
+.joinus {
+    width: 100%;
+    padding-bottom: 2px;
+    background: #fcf7f1;
+}
+
+.joinus {
+    border-radius: 15px;
+    padding-top: 25px;
+}
+
+.myself-show {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    background: #fcf7f1;
+}
+
+
+.bookList-show-content {
+    display: flex;
+    padding-top: 45px;
+}
+
+.book-card {
+    width: 308px;
+    height: 400px;
+    margin: 15px 17px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 5px#ccc;
+    overflow: hidden;
+    background: #fff;
+}
+
+.myself-show-li {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 40px;
+}
+
+.myself-show-li-img {
+    width: 300px;
+    height: 300px;
+    padding: 20px;
+    border-radius: 15px;
+    background: #fff;
+}
+
+.myself-show-li-img img {
+    width: 100%;
+}
+
+.myself-show-li-text {
+    position: relative;
+    width: 657px;
+    height: 300px;
+    padding: 15px 30px;
+    border-radius: 15px;
+    background: #fff;
+}
+
+
+#commitdata {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 26px;
+    right: 38px;
+    width: 102px;
+    height: 34px;
+    border: 1px solid #fff;
+    color: #fff;
+    background: orange;
+    border-radius: 16px;
+    cursor: pointer;
+}
+
+.myself-show-li-text-card {
+    width: 100%;
+    height: 100%;
+    text-align: left;
+    word-spacing: 3px;
+    letter-spacing: 0.3px;
+    font-size: 18px;
+    color: #134160;
+    line-height: 27px;
+}
+
+.myself-text-card-head {
+    font-size: 16px;
+    font-weight: 545;
+    margin-bottom: 6px;
+}
+
+.myself-text-card-body {
+    padding-left: 5px;
+    font-size: 13px;
+}
+
+.editBox {
+    position: relative;
+    width: 1020px;
+    margin: 30px 40px 40px 40px;
+    padding: 40px;
+    border-radius: 15px;
+    background: #fff;
+}
+
+.editBox form>div {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 45px;
+    margin-bottom: 45px;
+}
+
+.editBox form>div:last-child {
+    margin-bottom: 0;
+}
+
+.editBox form>div label {
+    width: 88px;
+    font-size: 20px;
+    color: rgb(157, 153, 149);
+    text-align: right;
+    letter-spacing: 1px;
+}
+
+.editBox form>div input {
+    outline: none;
+    display: block;
+    width: 790px;
+    height: 50px;
+    margin-left: 15px;
+    padding: 5px 20px 5px;
+    font-size: 18px;
+    background: rgb(240, 241, 244);
+    border-radius: 10px;
+    border: none;
+    color: rgb(157, 153, 149);
+}
+
+.editBox form div.sexBox {
+    display: flex;
+}
+
+.editBox form div.sexBox .sexsmall {
+    height: 0;
+    margin-right: 20px;
+    text-align: center;
+
+}
+
+.editBox form div.sexBox input {
+    display: none;
+}
+
+.editBox form div.sexBox label {
+    display: inline-block;
+    position: relative;
+    top: -24px;
+    line-height: 50px;
+}
+
+.editBox form div.sexBox label:after {
+    content: "";
+    /*必须设置*/
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 1px solid rgb(255, 165, 0);
+    position: absolute;
+    top: 15px;
+    left: 22px;
+    border-radius: 20px;
+}
+
+.editBox form div.sexBox input:checked+label:after {
+    background-color: rgb(255, 165, 0);
+}
+
+#commitdata {
+    position: relative;
+    height: 45px;
+    top: 0;
+    left: 105px;
+    font-size: 16px;
+    border-radius: 15px;
+    letter-spacing: 2px;
+}

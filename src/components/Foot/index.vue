@@ -2,7 +2,7 @@
   <footer class="footer">
     <div class="footer-top">
       <!-- 加入我们 -->
-      <div class="footer-wrap">
+      <!-- <div class="footer-wrap">
         <div class="footer-worker-detail">
           <h3>Our Mailing Address</h3>
           <h4>How can you find us</h4>
@@ -15,11 +15,13 @@
         <div class="join-us">
           <h3>Join our psychology team</h3>
           <div class="write-data">
-            <div class="name"><input type="text" placeholder="name" /></div>
-            <div class="Email"><input type="text" placeholder="Email" /></div>
-            <div class="Grace"><input type="text" placeholder="Grace" /></div>
-            <div class="class"><input type="text" placeholder="class" /></div>
-            <div class="button"><button>LET ME IN</button></div>
+            <form action="">
+              <div class="name"><input type="text" placeholder="name" /></div>
+              <div class="Email"><input type="text" placeholder="Email" /></div>
+              <div class="Grace"><input type="text" placeholder="Grace" /></div>
+              <div class="class"><input type="text" placeholder="class" /></div>
+              <div class="button"><button>LET ME IN</button></div>
+            </form>
           </div>
           <div class="means">
             <p class="iconfont icon-facebookfacebook52"></p>
@@ -28,7 +30,7 @@
             <p class="iconfont icon-weixin"></p>
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
     <div class="footer-publish">
       <p class="copyright">Copyright &copy; | All Rights Reserved</p>
@@ -94,13 +96,16 @@ export default {
 }
 
 .join-us .write-data {
+  width: 100%;
+}
+.join-us .write-data form {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
   width: 100%;
 }
 
-.join-us .write-data > div {
+.join-us .write-data form > div {
   width: 335px;
   height: 40px;
   margin-bottom: 27px;
@@ -109,18 +114,18 @@ export default {
   overflow: hidden;
 }
 
-.join-us .write-data > div input {
+.join-us .write-data form > div input {
   width: 100%;
   height: 100%;
   line-height: 40px;
   padding: 0 10px;
 }
 
-.join-us .write-data > div:last-child {
+.join-us .write-data form > div:last-child {
   width: 100%;
 }
 
-.join-us .write-data > div:last-child button {
+.join-us .write-data form > div:last-child button {
   width: 100%;
   height: 100%;
   font-size: 16px;
@@ -139,6 +144,7 @@ export default {
   margin-left: 11px;
   border-radius: 50%;
   background: #ccc;
+  cursor: pointer;
 }
 
 .icon-weibo1:before,
@@ -153,7 +159,7 @@ export default {
   height: 100px;
   padding-top: 30px;
   text-align: center;
-  background: #fff;
+  background: #ffe284;
 }
 
 .footer-publish .copyright {

@@ -28,7 +28,9 @@ const Websocket = require('ws');
     }
     function handleMessage(msg) {
         console.log(msg);
-        console.log(msg.toString());
+        // Buffer()
+        console.log(msg.constructor);
+        // console.log(msg.toString());
     }
 
     init();

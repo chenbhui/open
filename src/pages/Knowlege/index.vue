@@ -117,7 +117,7 @@ export default {
     const GoHref = (e) => {
       // console.log(e); //获取点击的参数(url地址)
       /*  // 在本页面打开感觉不是很友好
-      window.location.href = e; //在本页面打开外部链接 */
+      window.location.href = e; //在本页f面打开外部链接 */
       window.open(e, "_blank"); //在新窗口打开外链接
     };
     const changePage = (value) => {

@@ -12,7 +12,7 @@
           <li><router-link to="/chatroom">PSY SERVICE</router-link></li>
           <li><a href="javascript:;">DECOMPRESSION</a></li>
           <li><router-link to="/knowledge">PSY KNOWLEDGE</router-link></li>
-          <li><a href="javascript:;">ABOUT US</a></li>
+          <li><router-link to="/aboutus">ABOUT US</router-link></li>
           <!-- router-link是声明式导航，无法有其他业务逻辑，只能跳转，编程式导航（replace、push）才能有其他业务 -->
           <li>
             <router-link to="login" v-if="!showUser">SIGN IN</router-link>
@@ -22,6 +22,9 @@
               <img src="../../assets/images/authorPhoto.jpg" alt="" />
             </div>
             <div class="authorPartItem">
+              <p class="myself" v-show="showexit" @click="showMyself">
+                我的资料
+              </p>
               <p class="exit" v-show="showexit" @click="exitload">退出</p>
             </div>
           </li>
@@ -33,6 +36,7 @@
 
 <script>
 import { ref, onMounted } from "vue";
+import router from "@/router";
 export default {
   name: "Header",
   setup() {
@@ -53,11 +57,15 @@ export default {
     const changeshowexit = () => {
       showexit.value = !showexit.value;
     };
+    const showMyself = () => {
+      router.push("/myself");
+    };
     return {
       showUser,
       showexit,
       exitload,
       changeshowexit,
+      showMyself,
     };
   },
 };
@@ -155,7 +163,8 @@ export default {
   overflow: hidden;
   z-index: 9999;
 }
-.authorPartItem p.exit {
+.authorPartItem p.exit,
+.authorPartItem p.myself {
   width: 100%;
   height: 30px;
   text-align: center;

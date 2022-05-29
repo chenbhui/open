@@ -5,27 +5,44 @@ import Register from '@/pages/Register';
 import Login from '@/pages/Login';
 import Knowledge from '@/pages/Knowlege';
 import Chatroom from '@/pages/Chatroom';
+import Myself from '@/pages/Myself';
+import Aboutus from '@/pages/Aboutus';
 // 配置路由
 const routers = [
     {
         path: '/home',
+        name: 'home',
         component: Home
     },
     {
         path: '/register',
+        name: 'register',
         component: Register
     },
     {
         path: '/login',
+        name: 'login',
         component: Login
     },
     {
         path: '/knowledge',
+        name: 'knowledge',
         component: Knowledge
     },
     {
         path: '/chatroom',
+        name: 'chatroom',
         component: Chatroom
+    },
+    {
+        path: '/myself',
+        name: 'myself',
+        component: Myself
+    },
+    {
+        path: '/aboutus',
+        name: 'aboutus',
+        component: Aboutus
     },
     //重定向：当项目运行时，首先访问首页
     {
@@ -48,21 +65,22 @@ router.beforeEach((to,from,next)=>{
 })
 */
 router.beforeEach((to, from, next) => {
-    // 登陆注册页面可以直接加入，主页面需要分情况
+    //登陆注册页面可以直接加入，主页面需要分情况
     if (to.path == '/login') {
         next();
-    } else {
+    } else if (to.path == '/chatroom') {//心理服务
         let userId = sessionStorage.getItem('userId');
-        // console.log(JSON.stringify(userId));
         if (userId === null || userId === '') {
-            // 没有userId
             console.log("userId=== null || userId === ''");
             next('./login');
         } else {
             next();
         }
+    } else {
+        next();
     }
 })
+
 
 
 export default router;
